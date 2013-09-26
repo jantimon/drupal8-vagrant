@@ -10,9 +10,11 @@ apt-get install -y curl build-essential git-core
 apt-get install -y apache2
 
 # mysql
-DEBIAN_FRONTEND=noninteractive  apt-get install -y mysql-server
-apt-get install -y mysql-client
-mysqladmin -u root password secret
+if [ -z `which mysql` ]; then
+  DEBIAN_FRONTEND=noninteractive  apt-get install -y mysql-server
+  apt-get install -y mysql-client
+  mysqladmin -u root password secret
+fi
 
 # PHP
 apt-get install -y php5 php5-gd php5-curl php5-mcrypt php5-xdebug php5-mysql
@@ -49,6 +51,11 @@ a2ensite vagrant
 
 a2enmod rewrite
 
+# Install pecl
+if [ -z `which pecl` ]; then
+  apt-get install -y  php-pear
+fi
+
 pecl install uploadprogress
 
 # install .so extensions
@@ -61,10 +68,13 @@ a2enmod uploadprogress
 /etc/init.d/apache2 restart
 
 # Install current drupal on the first run
-if [ ! -d "/var/www/htdocs/modules" ]; then
-  sh /vagrant/vagrant_setup/install.sh
+if [ ! -f "/var/www/htdocs/index.php" ]; then
+  sudo -u vagrant sh /vagrant/vagrant_setup/install.sh
 fi
 
-sudo -u vagrant ln -s /vagrant/vagrant_setup/install.sh /home/vagrant/reinstall.sh
+# Link reinstall script:
+if [ ! -f "/home/vagrant/reinstall.sh" ]; then
+  sudo -u vagrant ln -s /vagrant/vagrant_setup/install.sh /home/vagrant/reinstall.sh
+fi
 
 echo "Installation complete user name: vagrant password: secret"
