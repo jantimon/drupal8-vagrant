@@ -65,4 +65,6 @@ if [ ! -d "/var/www/htdocs/modules" ]; then
   sh /vagrant/vagrant_setup/install.sh
 fi
 
+sudo -u vagrant ln -s /vagrant/vagrant_setup/install.sh /home/vagrant/reinstall.sh
+
 echo "Installation complete user name: vagrant password: secret"
