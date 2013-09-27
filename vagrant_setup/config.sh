@@ -9,6 +9,9 @@ apt-get install -y curl build-essential git-core
 # apache
 apt-get install -y apache2
 
+# vim
+apt-get intall -y vim
+
 # mysql
 if [ -z `which mysql` ]; then
   DEBIAN_FRONTEND=noninteractive  apt-get install -y mysql-server
@@ -27,6 +30,8 @@ if [ -z `which drush` ]; then
   export PATH="$PATH: /usr/share/drush/drush-core:/usr/local/bin"
   source .bashrc
   cp /usr/share/drush/drush-core/drush.complete.sh /etc/bash_completion.d/
+  sudo -u vagrant drush help
+  chown -R vagrant:vagrant /home/vagrant/.drush/
 fi
 
 # Link /var/www
