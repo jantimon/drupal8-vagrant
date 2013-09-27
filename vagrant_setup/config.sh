@@ -74,7 +74,7 @@ a2enmod uploadprogress
 
 # Install current drupal on the first run
 if [ ! -f "/var/www/htdocs/index.php" ]; then
-  sudo -u vagrant sh /vagrant/vagrant_setup/install.sh
+  sh /vagrant/vagrant_setup/install.sh
 fi
 
 # Link reinstall script:
